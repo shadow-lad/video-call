@@ -1,0 +1,22 @@
+{
+	"name": "backend",
+	"version": "1.0.0",
+	"private": "true",
+	"main": "src/app.js",
+	"scripts": {
+		"start": "node src/app.js",
+		"dev": "NODE_ENV=development PORT=8080 nodemon src/app.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.18.1",
+		"nanoid": "^3.3.4",
+		"socket.io": "^4.5.1"
+	},
+	"devDependencies": {
+		"morgan": "^1.10.0",
+		"nodemon": "^2.0.19"
+	}
+}
