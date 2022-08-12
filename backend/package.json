@@ -4,7 +4,8 @@
 	"private": "true",
 	"main": "src/app.js",
 	"scripts": {
-		"test": "NODE_ENV=development jest",
+		"test": "jest",
+		"prestart": "npm test",
 		"start": "node src/server.js",
 		"dev": "NODE_ENV=development PORT=8080 nodemon src/server.js"
 	},

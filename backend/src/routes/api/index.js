@@ -1,8 +1,8 @@
 const { Router } = require("express");
-const create_room = require("./create-room");
+const roomRouter = require("./room");
 
 const router = Router();
 
-router.use("/create-room", create_room);
+router.use("/room", roomRouter);
 
 module.exports = router;

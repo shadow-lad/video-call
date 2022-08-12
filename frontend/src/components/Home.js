@@ -1,4 +1,22 @@
+import { useState } from "react";
+import { useNavigate } from "react-router";
+
 function Home() {
+	const [roomid, setRoomId] = useState("");
+	const [loading, setLoading] = useState(false);
+
+	const navigate = useNavigate();
+
+	const onJoinRoom = async (event) => {
+		event.preventDefault();
+		setLoading(true);
+		const res = await fetch(`/api/room?id=${roomid}`);
+		if (res.ok) return navigate(`/${roomid}`);
+		alert("Not a valid room");
+		setLoading(false);
+		setRoomId("");
+	};
+
 	return (
 		<>
 			<div className="center-container flex-column">
@@ -6,16 +24,27 @@ function Home() {
 					Let's join a <span className="accent">room!</span>
 				</h1>
 				<div className="room-input-container">
-					<form method="POST" action="/api/create-room">
-						<button type="submit" className="btn btn-accent">
+					<form method="POST" action="/api/room">
+						<button disabled={loading} type="submit" className="btn btn-accent">
 							Create a Room
 						</button>
 					</form>
 					<h2>OR</h2>
-					<div className="input-group">
-						<input className="input-control" type="text" placeholder="Enter Code" />
-						<button className="btn btn-outline-accent">Join</button>
-					</div>
+					<form onSubmit={onJoinRoom} className="input-group">
+						<input
+							disabled={loading}
+							className="input-control"
+							type="text"
+							onChange={(event) => setRoomId(event.target.value)}
+							placeholder="Enter Code"
+							value={roomid}
+							minLength="6"
+							maxLength="6"
+						/>
+						<button type="submit" disabled={loading} className="btn btn-outline-accent">
+							Join
+						</button>
+					</form>
 				</div>
 			</div>
 			<footer>
