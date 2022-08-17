@@ -4,7 +4,7 @@ function Video({ stream, volume, ...props }) {
 	const ref = useRef();
 
 	useEffect(() => {
-		if (!ref.current) return;
+		if (!ref.current || !stream) return;
 
 		ref.current.srcObject = stream;
 		ref.current.volume = volume ?? 1.0;

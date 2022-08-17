@@ -9,6 +9,12 @@ async function getVideoStream() {
 	return await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 }
 
+const getPeerStream = (call) => {
+	return new Promise((resolve) => {
+		call.on("stream", resolve);
+	});
+};
+
 function Room() {
 	const { roomid } = useParams();
 	const peer = usePeer();
@@ -26,7 +32,7 @@ function Room() {
 	}, []);
 
 	useEffect(() => {
-		if (!socket || !peer) return;
+		if (!socket || !peer || !myStream) return;
 
 		peer.on("open", (id) => {
 			socket.emit("peerid", id);
@@ -36,6 +42,15 @@ function Room() {
 			socket.on("room-joined", (users) => {
 				const mappedUsers = users.map((user) => ({ id: user, stream: undefined }));
 				setUsers(mappedUsers);
+
+				peer.on("call", async (call) => {
+					console.log("got a from:", call.peer);
+					call.answer(myStream);
+					const theirStream = await getPeerStream(call);
+					setUsers((users) => {
+						return [...users, { id: call.peer, stream: theirStream }];
+					});
+				});
 			});
 
 			socket.on("join-error", (message) => {
@@ -43,9 +58,25 @@ function Room() {
 				navigate("/");
 			});
 		});
-	}, [socket, peer, roomid, navigate]);
+	}, [socket, peer, roomid, navigate, myStream]);
 
-	// TODO: Call friends
+	useEffect(() => {
+		if (!users.length || !myStream || !peer) return;
+
+		const callFriends = async () => {
+			for (let i = 0; i < users.length; i++) {
+				if (users[i].stream) continue;
+				const call = peer.call(users[i].id, myStream);
+				console.log("calling:", users[i].id);
+				const theirStream = await getPeerStream(call);
+				setUsers((users) => {
+					users[i].stream = theirStream;
+					return [...users];
+				});
+			}
+		};
+		callFriends();
+	}, [users, myStream, peer]);
 
 	const toggleModal = () => {
 		setShowModal((old) => !old);
@@ -88,7 +119,7 @@ function Room() {
 					);
 				})}
 			</div>
-			<Video id="my-video" stream={myStream} volume={0} />
+			{myStream && <Video id="my-video" stream={myStream} volume={0} />}
 			{showModal && (
 				<Modal onClose={toggleModal}>
 					<h6>Share Link</h6>

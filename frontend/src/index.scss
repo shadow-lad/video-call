@@ -158,8 +158,9 @@ footer {
 video {
 	min-width: 0rem;
 	background-color: var(--color-bg-video);
-	max-height: 50vh;
+	max-height: min(100vh, 100%);
 	display: block;
+	width: 0;
 }
 
 .modal-container {
