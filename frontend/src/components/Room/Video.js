@@ -16,9 +16,9 @@ function Video({ stream, volume, ...props }) {
 		<video
 			ref={ref}
 			style={
-				isMyVideo && ref.current
+				isMyVideo
 					? {
-							width: `${ref.current.videoWidth * (1 / 3)}px`,
+							width: "15vw",
 					  }
 					: {}
 			}

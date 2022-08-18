@@ -7,6 +7,8 @@ const isDev = process.env.NODE_ENV === "development";
 
 const app = express();
 
+// TODO: Don't add user to room if user is already in the room
+// TODO: Send users list to user without their id
 function initSocketIO(server) {
 	const io = new Server(server, { path: "/ws", cors: isDev ? ["*"] : undefined });
 

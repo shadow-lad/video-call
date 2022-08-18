@@ -3,11 +3,16 @@
 	"version": "1.0.0",
 	"private": "true",
 	"main": "src/app.js",
+	"nodemonConfig": {
+		"events": {
+			"start": "clear"
+		}
+	},
 	"scripts": {
 		"test": "jest",
 		"prestart": "npm test",
 		"start": "node src/server.js",
-		"dev": "clear && NODE_ENV=development PORT=8080 nodemon src/server.js"
+		"dev": "NODE_ENV=development PORT=8080 nodemon src/server.js"
 	},
 	"jest": {
 		"verbose": true,

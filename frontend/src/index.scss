@@ -18,7 +18,8 @@
 	--disabled-color-accent: #e6007b40;
 
 	--color-bg-video: #131319;
-	--modal-background: #000000f5;
+	--modal-background: #000000ed;
+	--color-text-fade: #3030302a;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -32,6 +33,7 @@
 
 		--disabled-color: #56565656;
 		--disabled-color-accent: #f33f9f40;
+		--color-text-fade: #30303076;
 
 		--modal-background: #000000b5;
 	}
@@ -124,7 +126,6 @@ footer {
 	position: fixed;
 	bottom: 0;
 	right: 0;
-	aspect-ratio: 16 / 9;
 }
 
 .video-container {
@@ -158,7 +159,7 @@ footer {
 video {
 	min-width: 0rem;
 	background-color: var(--color-bg-video);
-	max-height: min(100vh, 100%);
+	max-height: 50vh;
 	display: block;
 	width: 0;
 }
@@ -190,6 +191,7 @@ video {
 	right: 1%;
 	background: none;
 	box-shadow: none;
+	color: white;
 
 	&:hover {
 		background: none;
